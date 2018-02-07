@@ -19,11 +19,7 @@ const list = [
     objectID: 1,
   }
   ];
-// function isSearched(searchTerm) {
-//   return function (item) {
-//     return item.title.toLowerCase().includes(searchTerm.toLowerCase());
-//   }
-// }
+
 const isSearched = searchTerm => item =>
   item.title.toLowerCase().includes(searchTerm.toLowerCase());
 class App extends Component {
@@ -34,8 +30,6 @@ class App extends Component {
       list,
       searchTerm: '',
     };
-    // this.onDismiss = this.onDismiss.bind(this);
-    // this.onSearchChange =  this.onSearchChange.bind(this);
   }
 
   onDismiss = (id) => {
@@ -43,6 +37,7 @@ class App extends Component {
     const updateList = this.state.list.filter(isNotId);
     this.setState({ list: updateList });
   }
+
   onSearchChange = (event) => {
     this.setState({ searchTerm: event.target.value });
   }
@@ -54,55 +49,45 @@ class App extends Component {
         <Search
           value={searchTerm}
           onChange={this.onSearchChange}
-          />
+          >
+        Search
+        </Search>
         <Table
           list={list}
           pattern={searchTerm}
           onDismiss={this.onDismiss}
           />
-        {/*<form>*/}
-          {/*<input*/}
-            {/*type="text"*/}
-            {/*value={searchTerm}*/}
-            {/*onChange={this.onSearchChange}*/}
-          {/*/>*/}
-        {/*</form>*/}
-        {/*{list.filter(isSearched(searchTerm)).map(item =>*/}
-          {/*<div key={item.objectID}>*/}
-          {/*<span>*/}
-            {/*<a href={item.url}>{item.title}</a>*/}
-          {/*</span>*/}
-            {/*<span>{item.author}</span>*/}
-            {/*<span>{item.num_comments}</span>*/}
-            {/*<span>{item.points}</span>*/}
-            {/*<span>*/}
-            {/*<button*/}
-              {/*onClick={()=> this.onDismiss(item.objectID)}*/}
-              {/*type="button">*/}
-              {/*Dismiss*/}
-            {/*</button>*/}
-          {/*</span>*/}
-          {/*</div>*/}
-        {/*)}*/}
       </div>
     );
   }
 }
 
-class Search extends Component {
-  render() {
-    const { value, onChange } =this.props;
-    return (
-      <form>
-        <input
-          type="text"
-          value={value}
-          onChange={onChange}
-          />
-      </form>
-    );
-  }
+const Search = ({ value, onChange, children }) => {
+  return(
+    <form>
+      {children} <input
+      type="text"
+      value={value}
+      onChange={onChange}
+    />
+    </form>
+  );
 }
+
+// class Search extends Component {
+//   render() {
+//     const { value, onChange, children } =this.props;
+//     return (
+//       <form>
+//         {children} <input
+//           type="text"
+//           value={value}
+//           onChange={onChange}
+//           />
+//       </form>
+//     );
+//   }
+// }
 
 class Table extends Component {
   render() {
@@ -118,12 +103,9 @@ class Table extends Component {
           <span>{item.num_comments}</span>
           <span>{item.points}</span>
           <span>
-            <button
-              onClick={() => onDismiss(item.objectID)}
-              type="button"
-              >
+            <Button onClick={() => onDismiss(item.objectID)}>
               Dismiss
-            </button>
+            </Button>
           </span>
         </div>
           )}
@@ -131,4 +113,24 @@ class Table extends Component {
     );
   }
 }
+
+class Button extends Component {
+  render() {
+    const {
+      onClick,
+      className = '',
+      children,
+    } = this.props;
+    return (
+      <button
+        onClick={onClick}
+        className={className}
+        type="button"
+        >
+        {children}
+      </button>
+    )
+  }
+}
+
 export default App;
