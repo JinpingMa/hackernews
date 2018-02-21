@@ -43,6 +43,7 @@ class App extends Component {
       result: null,
       results: null,
       searchKey: '',
+      error: null,
     };
 
     // this.setSearchTopStories = this.setSearchTopStories.bind(this);
@@ -77,11 +78,12 @@ class App extends Component {
   };
 
   fetchSearchTopStories = (searchTerm, page = 0) => {
+    // const url = "https://hn.foo.bar.com/api/vi";
     const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`;
     fetch(url)
       .then(response => response.json())
       .then(result => this.setSearchTopStories(result))
-      .catch(e =>e );
+      .catch(e => this.setState({ error: e }));
   };
 
   onSearchSubmit = (event) => {
@@ -122,7 +124,8 @@ class App extends Component {
     const {
       searchTerm,
       results,
-      searchKey
+      searchKey,
+      error
     } = this.state;
     const page = (
       results &&
@@ -135,6 +138,7 @@ class App extends Component {
       results[searchKey].hits
     ) || [];
     // if(!result) {return null;}
+
     return (
       <div className="page">
         <div className="interactions">
@@ -146,16 +150,11 @@ class App extends Component {
         Search
         </Search>
         </div>
-        {/*{ result*/}
-          {/*? <Table*/}
-            {/*list={result.hits}*/}
-            {/*pattern={searchTerm}*/}
-            {/*onDismiss={this.onDismiss}*/}
-          {/*/>*/}
-          {/*: null*/}
-        {/*}*/}
-        { results &&
-          <Table
+        { error
+          ? <div className="interactions">
+            <p>Something went wrong.</p>
+          </div>
+        : <Table
             list={list}
             // pattern={searchTerm}
             onDismiss={this.onDismiss}
