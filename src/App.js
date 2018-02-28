@@ -1,3 +1,5 @@
+//拆分出组件之前的代码，在index.js中直接引用使用。
+
 import React, { Component } from 'react';
 import './App.css';
 
