@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 const DEFAULT_QUERY= 'redux';
-const DEFAULT_HPP = '100';
+const DEFAULT_HPP = '10';
 
 const PATH_BASE = 'https://hn.algolia.com/api/v1';
 const PATH_SEARCH = '/search';
@@ -149,7 +149,7 @@ class App extends Component {
           onChange={this.onSearchChange}
           onSubmit={this.onSearchSubmit}
           >
-        Search
+        Search items
         </Search>
         </div>
         { error
